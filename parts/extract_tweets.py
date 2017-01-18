@@ -1,4 +1,6 @@
 import re
+import nltk
+from nltk.tokenize import sent_tokenize, word_tokenize
 
 tweets_data_path = './goldenglobes.tab'
 
@@ -21,6 +23,15 @@ for tweet in tweets_data:
     except:
         continue
 
-        
+print "untokenized tweets"
 for i in tweets_host_data:
     print i
+
+tweet1 = tweets_host_data[0]
+
+def tag_tweet(tweet):
+    tokenized = nltk.word_tokenize(tweet)
+    tagged = nltk.pos_tag(tokenized)
+    print tagged
+
+tag_tweet(tweet1)
