@@ -1,3 +1,5 @@
+import re
+
 tweets_data_path = './goldenglobes.tab'
 
 tweets_data = []
@@ -7,3 +9,18 @@ for tweet in tweets_file:
         tweets_data.append(tweet)
     except:
         continue
+        
+tweets_host_data = []
+
+pattern = re.compile(".*host.*open.*")
+
+for tweet in tweets_data:
+    try:
+        if pattern.match(tweet):
+            tweets_host_data.append(tweet)
+    except:
+        continue
+
+        
+for i in tweets_host_data:
+    print i
