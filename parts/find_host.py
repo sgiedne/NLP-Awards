@@ -31,19 +31,22 @@ for i in tweets_host_data:
     
 i=0
 potential_hosts = []
+chunked_data = []
 
 
 for tweet in tweets_host_data:
-    while(i < len(ne_chunk(pos_tag(word_tokenize(tweet))))):
-        if(hasattr(ne_chunk(pos_tag(word_tokenize(tweet)))[i],'label')):
-            if(ne_chunk(pos_tag(word_tokenize(tweet)))[i].label() == 'PERSON'):
-                fname = ''.join(list(ne_chunk(pos_tag(word_tokenize(tweet)))[i][0][0]))
+    chunked_data = ne_chunk(pos_tag(word_tokenize(tweet)))
+    while(i < len(chunked_data)):
+        if(hasattr(chunked_data[i],'label')):
+            if(chunked_data[i].label() == 'PERSON'):
+                fname = ''.join(list(chunked_data[i][0][0]))
                 lname = ''
-                if(len(ne_chunk(pos_tag(word_tokenize(tweet)))[i]) > 1):
-                    lname = ''.join(list(ne_chunk(pos_tag(word_tokenize(tweet)))[i][1][0]))
+                if(len(chunked_data[i]) > 1):
+                    lname = ''.join(list(chunked_data[i][1][0]))
                 potential_hosts.append(fname + ' ' + lname)
         i+=1;    
     i=0
+    chunked_data = []
 
 
 print '\nPotential host names : '
