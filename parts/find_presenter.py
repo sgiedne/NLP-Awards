@@ -30,46 +30,31 @@ for tweet in tweets_data:
     except:
         continue
         
-print '\nTweets containing a presenter : \n--------------------\n' 
-num_tweets = 0
-
-for i in tweets_presenter_data:
-    num_tweets += 1
-    print i
-
-print num_tweets
-
-
-
-#Extract tweets that might have the presenter in it
-#This doesn't quite work - it also captures things that are not people, and also takes a long time to load
-'''
+chunked_data = []
+presenter_award_data = []
 i=0
-potential_presenters = []
 
-
+#Extracts poeple(potential presenters) and organizations/GPEs(potential award names) within every tweet present in tweets_presenter_data. Resulting list in stored in presenter_award_data.
 for tweet in tweets_presenter_data:
-    while(i < len(ne_chunk(pos_tag(word_tokenize(tweet))))):
-        if(hasattr(ne_chunk(pos_tag(word_tokenize(tweet)))[i],'label')):
-            if(ne_chunk(pos_tag(word_tokenize(tweet)))[i].label() == 'PERSON'):
-                fname = ''.join(list(ne_chunk(pos_tag(word_tokenize(tweet)))[i][0][0]))
-                lname = ''
-                if(len(ne_chunk(pos_tag(word_tokenize(tweet)))[i]) > 1):
-                    lname = ''.join(list(ne_chunk(pos_tag(word_tokenize(tweet)))[i][1][0]))
-                potential_presenters.append(fname + ' ' + lname)
-        i+=1;    
+    chunked_data = ne_chunk(pos_tag(word_tokenize(tweet)))
     i=0
+    #print ''
+    n1 = []
+    
+    while(i<len(chunked_data)):
+        str_data = str(chunked_data[i])
+        #Considers only the chunked data before the first mention of "Best"
+        if "Best" not in str_data:
+            #Detects variations of Golden Globes in the chunked data (DOESN'T QUITE WORK YET!)
+            if (hasattr(chunked_data[i],'label') and not (("Golden" in str_data) or ("Globe" in str_data))):
+                n1.append(str_data)
+            i+=1
+        else:
+            break
 
+        presenter_award_data.append(n1)
+        chunked_data = []
 
-print '\nPotential presenter names : '
-print '\n--------------------\n'
-for presenter in potential_presenters:
-    print presenter
-print '\n'
-def most_common(lst):
- return max(set(lst), key=lst.count)
-
-print '\nAnd the presenter is. . .\n***************************'
-print most_common(potential_presenters)
-print '***************************'
-'''
+for i in presenter_award_data:
+    print i
+    print ''
