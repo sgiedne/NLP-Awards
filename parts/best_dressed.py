@@ -7,6 +7,7 @@ from collections import Counter
 import matplotlib.pyplot as plt; plt.rcdefaults()
 import numpy as np
 import matplotlib.pyplot as plt
+import plotly.plotly as py
 
 tweets_data_path = './goldenglobes.tab'
 color_data_path = './all_colors.txt'
@@ -55,21 +56,26 @@ print "==========This is a count of the colors of dresses========="
 frequency = Counter(colors_of_dresses)
 print frequency.most_common(10)
 
+#Count how many colors there are
+N = len(frequency)
 
+#Create an array with the color frequencies
+color_frequencies = []
+for value, count in frequency.most_common(10):
+    color_frequencies.append(count)
 
-objects = colors_of_dresses
-y_pos = np.arange(len(objects))
-i = 0
-while i < len(objects):
-	performance = objects[i][1]
-	i+=1
- 
-plt.bar(y_pos, performance, align='center', alpha=0.5)
-plt.xticks(y_pos, objects)
-plt.ylabel('Number of tweets')
-plt.title('Colors of Dresses')
- 
+ind = np.arange(N)    # the x locations for the groups
+width = 0.35       # the width of the bars: can also be len(x) sequence
+
+p1 = plt.bar(ind, color_frequencies, width, color='#d62728')
+
+plt.ylabel('Scores')
+plt.title('Scores by group and gender')
+plt.xticks(ind, ('G1', 'G2', 'G3', 'G4', 'G5'))
+plt.yticks(np.arange(0, 81, 10))
+
 plt.show()
+
 
 
 
