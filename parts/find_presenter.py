@@ -37,28 +37,42 @@ i=0
 potential_presenters = []
 #This looks at each tweet (document) in the tweets_presenter_data (corpus)
 for tweet in tweets_presenter_data:
+    
     try: 
         #Splits the tweet right before it mentions presenting/presents/presented the award 
         split_tweet = re.split(' present.* Best ', tweet)
+        #Hmm
+        
+        #Check to see if the first part of the split_tweet[0] matches with RT
+        #If yes, then split the tweet again to ignore the RT
+        if not re.match('RT.*', split_tweet[0]):
+            tagged_words = ne_chunk(pos_tag(word_tokenize(split_tweet[0])))
+
+        if re.match('RT.*', split_tweet[0]):
+            split_tweet = re.split('RT.*:', split_tweet[0])
+            tagged_words = ne_chunk(pos_tag(word_tokenize(split_tweet[1])))
         
         #With the split tweet, look only at the first split
         #Look from the end of the first split. If we hit a name, take that as the name
         #First, we need to tokenize each word
-        tagged_words = ne_chunk(pos_tag(word_tokenize(split_tweet[0])))
         
         #Start from the end of the first split
-        i = len(tagged_words) - 1
-
+        print "=========This is the tweet========"
         print tweet
+
+            
         while i >= 0:
+            if "and" in tagged_words[i]:
+                print "this has two people--------"
             if hasattr(tagged_words[i], 'label'):
                 #Do not consider any "GoldenGlobes"
                 if "Golden" not in str(tagged_words[i]):
-                    #potential_presenters.append(list(tagged_words[i])) (ADD THIS LATER)
                     #Print anything in the first split that has a label that is not GoldenGlobes
                     #PROBLEM: Misses anything with "@" in front of it
-                    #PROBLEM: How to deal with retweet RT "@"s?
-                    print tagged_words[i]
+                    presenter_name = ''.join(list(tagged_words[i][0][0]))
+                    potential_presenters.append[presenter_name]
+                    print presenter_name
+
             i=i-1
 
         #ALTERNATIVE 1: We could calculate TFIDF and take the name as the one with the highest TFIDF
@@ -69,8 +83,10 @@ for tweet in tweets_presenter_data:
     except:
         continue
 
+'''
 #Testing structure of tweets with "Golden Globes" before " present"
 split_tweet1 = re.split(' present.* Best ', tweets_presenter_data[6])
 print split_tweet1
 #print potential_presenters
+'''
     
