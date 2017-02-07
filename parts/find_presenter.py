@@ -1,4 +1,5 @@
 import re
+import urllib2
 from nltk.tokenize import word_tokenize
 from nltk.tag import pos_tag
 from nltk.chunk import ne_chunk
@@ -9,6 +10,17 @@ tweets_data_path = './goldenglobes.tab'
 first_names_path = './names.txt'
 
 stop_words = set(stopwords.words('english'))
+
+
+def getusername(handle):
+    try:
+        raw_data = urllib2.urlopen("https://twitter.com/search?q=%40" + handle).read()
+        scripted_html = re.split(">",re.split('ProfileNameTruncated-link u-textInheritColor js-nav js-action-profile-name',raw_data)[1])
+        untrimmed_name = re.split("<",scripted_html[1])
+        trimmed_name = re.split("\n",untrimmed_name[0])
+        return trimmed_name[1].strip()
+    except:
+        return handle
 
 
 first_names = []
@@ -53,17 +65,31 @@ i=0
 split_tweet = re.split(' present.* Best ', tweet)
 
 occurring_names = set()
-
+occurring_handles = set()
 count = 0
 
 for tweet in tweets_presenter_data:
     split_tweet = re.split(' present.* Best ', tweet)
     
     chunk_left = ne_chunk(pos_tag(word_tokenize(split_tweet[0])))
- 
+    
+
     split_right = re.split('#|\t|http|\.|,|@|\?|',split_tweet[1])
        
     presenter = []
+    
+    
+    #For twitter handles
+    if re.match('RT.*: ',split_tweet[0]):
+        split_tweet_for_handles = re.split('RT.*: ',split_tweet[0])
+        twitter_handles_left = re.findall(r"@(\w+)", split_tweet_for_handles[1])
+    
+    for handle in twitter_handles_left:
+        if handle in occurring_handles:
+            continue
+        presenter.append(getusername(handle))
+        occurring_handles.add(handle)
+    
     
     for chunk in chunk_left:
         if hasattr(chunk,'label'):
@@ -86,7 +112,7 @@ for tweet in tweets_presenter_data:
                 filtered_split_right.append(w)
     
         if len(filtered_split_right) > 0:
-            print ' '.join(presenter) + ' presents award for Best ' + ' '.join(filtered_split_right)
+            print ' '.join(presenter) + ' presented the award for Best ' + ' '.join(filtered_split_right)
             count +=1
             #print '  ---  presents award for Best ' 
             #print ' '.join(filtered_split_right)
