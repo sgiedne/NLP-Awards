@@ -68,6 +68,8 @@ occurring_names = set()
 occurring_handles = set()
 count = 0
 
+print ''
+
 for tweet in tweets_presenter_data:
     split_tweet = re.split(' present.* Best ', tweet)
     
@@ -117,29 +119,3 @@ for tweet in tweets_presenter_data:
             #print '  ---  presents award for Best ' 
             #print ' '.join(filtered_split_right)
             print '\n----------------\n'
-
-print count
-'''
-#Extracts poeple(potential presenters) and organizations/GPEs(potential award names) within every tweet present in tweets_presenter_data. Resulting list in stored in presenter_award_data.
-for tweet in tweets_presenter_data:
-    chunked_data = ne_chunk(pos_tag(word_tokenize(tweet)))
-    i=0
-    #print ''
-    n1 = []
-    while(i<len(chunked_data)):
-        if hasattr(chunked_data[i],'label'):
-            
-            #if chunked_data[i].label() == 'PERSON':
-            if len(chunked_data[i]) > 1:
-                n1.append(chunked_data[i][0][0] + ' ' + chunked_data[i][1][0])
-            else:
-                n1.append(chunked_data[i][0][0])
-        i+=1
-    presenter_award_data.append(n1)
-    chunked_data = []
-    
-
-for i in presenter_award_data:
-    print i
-    print ''
-'''

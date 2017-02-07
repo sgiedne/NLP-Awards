@@ -25,10 +25,12 @@ for tweet in tweets_data:
     except:
         continue
         
+'''        
 print '\nPotential tweets containing host name : \n--------------------\n'        
 for i in tweets_host_data:
     print i
-    
+'''   
+
 i=0
 potential_hosts = []
 chunked_data = []
