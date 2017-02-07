@@ -98,7 +98,7 @@ width = 0.50       # the width of the bars
 ind = np.arange(N)   # the x locations for the bars
 tick_diff = choose_tick_diff(color_frequencies) # the space between ticks on the y-axis 
 
-p = plt.bar(ind, color_frequencies, width, color=bar_colors, align='center',, edgecolor='black')
+p = plt.bar(ind, color_frequencies, width, color=bar_colors, align='center', edgecolor='black')
 
 plt.ylabel('Number of Tweets')
 plt.title('The Most Tweeted About Dress Colors')
