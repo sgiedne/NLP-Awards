@@ -275,7 +275,7 @@ for tweet in list1:
                 else:
                     if chunk[0][0] in occurring_names or chunk[0][0] not in first_names:
                         continue
-                    presenter.append(chunk[0][0])
+                    nominees.append(chunk[0][0])
                     occurring_names.add(chunk[0][0])
     
     if len(nominees) > 0:
