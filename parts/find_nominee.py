@@ -735,7 +735,7 @@ for tweet in list9:
 # Emma Stone, Lily Collins, Hailee Steinfeld, Meryl Streep
 
 # 4. Best Performance by an Actor in a Motion Picture - Musical or Comedy
-# Colin Farrell, Ryan Reynolds
+# Ryan Gosling, Colin Farrell, Ryan Reynolds
 
 # 5. Best Performance by an Actress in a Supporting Role in any Motion Picture
 # Viola Davis, Naomie Harris, Octavia Spencer, Michelle Williams
@@ -771,10 +771,10 @@ for tweet in list9:
 # Moonlight, Hell or High Water, Lion, Manchester by the Sea, Hacksaw Ridge
 
 # 16. Best Motion Picture - Musical or Comedy
-# La La Land, 20th Century Women, Deadpool, Florence Foster Jenkins
+# La La Land, 20th Century Women, Deadpool, Florence Foster Jenkins, Sing Street
 
 # 17. Best Director - Motion Picture
-
+# Mel Gibson
 
 # 18. Best Screenplay - Motion Picture
 
@@ -789,7 +789,7 @@ for tweet in list9:
 # Johann Johannsson, (Hans Zimmer, Pharrell Williams, Benjamin Wallfisch)
 
 # 22. Best Original Song - Motion Picture
-# (How Far I'll Go)
+
 
 # 23. Best Television Series - Drama
 
@@ -805,15 +805,32 @@ for tweet in list9:
 
 
 print "=============================== ALL THE NOMINEES ==============================="
-count_nominee = 1
 a = len(all_list1)
+temp = []
+new1 = []
+new2 = []
 for i in range(0, a):
-    print str(count_nominee) + '. ' + ' '.join(all_list1[i]) + ' was nominated for the award for Best ' + ' '.join(all_list2[i])
+    if all_list1[i] not in temp:
+        new1.append(all_list1[i])
+        new2.append(all_list2[i])
+        temp.append(all_list1[i])
+
+print len(new1)
+print len(new2)
+
+
+count_nominee = 1
+a = len(new1)
+for i in range(0, a):
+    print str(count_nominee) + '. ' + ' '.join(new1[i]) + ' was nominated for the award for Best ' + ' '.join(new2[i])
     count_nominee = count_nominee + 1
 
-print "total nominees = 177"
-print "total appeared nominees = 44"
-print "Accuracy Rate = 44/177 = 24.85%"
+
+
+print "total nominees = " + str(count_nominee)
+print "total appeared nominees = " + str(45)
+rate = float(45) / count_nominee
+print "Accuracy Rate = " + str(rate)
 
 
 
