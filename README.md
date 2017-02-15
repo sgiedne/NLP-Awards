@@ -1,8 +1,9 @@
 # NLP-Awards
 
 Install -
-   Python 2.7
-   NLTK toolkit for python
+   -> Python 2.7
+   
+   -> NLTK toolkit for python
 
 Given the corpora of tweets for an award ceremony, the system 
 1. Finds the names of the hosts
