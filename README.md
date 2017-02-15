@@ -19,3 +19,6 @@ Given the corpora of tweets for an award ceremony, the system
 5. Finds the nominees for each award
 
 6. Extracts data pertaining to popular dress colors
+
+
+Current implementation is tested against the Golden Globes award ceremony.
